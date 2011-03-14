@@ -1,0 +1,245 @@
+; Mon Mar 14 22:24:29 EET 2011
+; 
+;+ (version "3.4.5")
+;+ (build "Build 608")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(multislot hobby
+		(type INSTANCE)
+;+		(allowed-classes Recreational+Activities)
+		(create-accessor read-write))
+	(single-slot hours
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot time+interval
+		(type INSTANCE)
+;+		(allowed-classes Time+Interval)
+		(create-accessor read-write))
+	(single-slot agenda+name
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot main_Class13
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot person+name
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot other+participants
+		(type INSTANCE)
+;+		(allowed-classes Person)
+		(create-accessor read-write))
+	(single-slot place
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot minutes
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot date
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot main_Class5
+		(type INSTANCE)
+;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(multislot profession
+		(type INSTANCE)
+;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(single-slot end+time
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot start+time
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot agenda
+		(type INSTANCE)
+;+		(allowed-classes Agenda)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot duration
+		(type INSTANCE)
+;+		(allowed-classes Duration)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot day
+		(type INSTANCE)
+;+		(allowed-classes Day)
+		(create-accessor read-write))
+	(single-slot activity
+		(type INSTANCE)
+;+		(allowed-classes Activity)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot address
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Person
+	(is-a USER)
+	(role concrete)
+	(multislot profession
+		(type INSTANCE)
+;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(single-slot person+name
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot hobby
+		(type INSTANCE)
+;+		(allowed-classes Recreational+Activities)
+		(create-accessor read-write))
+	(single-slot agenda
+		(type INSTANCE)
+;+		(allowed-classes Agenda)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Profession
+	(is-a USER)
+	(role concrete))
+
+(defclass Professor
+	(is-a Profession)
+	(role concrete))
+
+(defclass Medic
+	(is-a Profession)
+	(role concrete))
+
+(defclass Agenda
+	(is-a USER)
+	(role concrete)
+	(multislot day
+		(type INSTANCE)
+;+		(allowed-classes Day)
+		(create-accessor read-write))
+	(single-slot agenda+name
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Activity
+	(is-a USER)
+	(role concrete)
+	(multislot other+participants
+		(type INSTANCE)
+;+		(allowed-classes Person)
+		(create-accessor read-write))
+	(single-slot place
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot duration
+		(type INSTANCE)
+;+		(allowed-classes Duration)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Recreational+Activities
+	(is-a Activity)
+	(role concrete))
+
+(defclass Fishing
+	(is-a Recreational+Activities)
+	(role concrete))
+
+(defclass Reading
+	(is-a Recreational+Activities)
+	(role concrete))
+
+(defclass Didactical+Activity
+	(is-a Activity)
+	(role concrete))
+
+(defclass Lecture
+	(is-a Didactical+Activity)
+	(role concrete))
+
+(defclass Laboratory
+	(is-a Didactical+Activity)
+	(role concrete))
+
+(defclass Meeting
+	(is-a Activity)
+	(role concrete))
+
+(defclass Job-related+Meeting
+	(is-a Meeting)
+	(role concrete))
+
+(defclass Council+Meeting
+	(is-a Job-related+Meeting)
+	(role concrete))
+
+(defclass Leisure+Meeting
+	(is-a Meeting)
+	(role concrete))
+
+(defclass Time
+	(is-a USER)
+	(role concrete))
+
+(defclass Time+Interval
+	(is-a Time)
+	(role concrete)
+	(single-slot start+time
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot activity
+		(type INSTANCE)
+;+		(allowed-classes Activity)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot end+time
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Day
+	(is-a Time)
+	(role concrete)
+	(multislot time+interval
+		(type INSTANCE)
+;+		(allowed-classes Time+Interval)
+		(create-accessor read-write))
+	(single-slot date
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Duration
+	(is-a Time)
+	(role concrete)
+	(single-slot hours
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot minutes
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Place
+	(is-a USER)
+	(role concrete)
+	(single-slot address
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))

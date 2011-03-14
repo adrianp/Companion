@@ -1,0 +1,38 @@
+; Mon Mar 14 22:24:29 EET 2011
+; 
+;+ (version "3.4.5")
+;+ (build "Build 608")
+
+([main_Class10012] of  Person
+
+	(agenda [main_Class10013])
+	(person+name "John Brown")
+	(profession [main_Class10015]))
+
+([main_Class10013] of  Agenda
+
+	(agenda+name "John Brown's Agenda")
+	(day [main_Class10020]))
+
+([main_Class10015] of  Professor
+)
+
+([main_Class10016] of  Lecture
+
+	(duration [main_Class10017]))
+
+([main_Class10017] of  Duration
+
+	(hours "2")
+	(minutes "0"))
+
+([main_Class10020] of  Day
+
+	(date "12.03.2011")
+	(time+interval [main_Class10024]))
+
+([main_Class10024] of  Time+Interval
+
+	(activity [main_Class10016])
+	(end+time "10:00")
+	(start+time "08:00"))
