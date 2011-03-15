@@ -1,19 +1,20 @@
-; Tue Mar 15 11:13:39 EET 2011
+; Tue Mar 15 12:46:01 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
 
+(definstances inst
 ([main_Class10009] of  Person
 
-	(agenda [main_Class10010])
 	(hobby [main_Class10011])
-	(name "John Brown")
-	(profession [main_Class10012]))
+	(name_ "John Brown")
+	(profession [main_Class10012])
+	(schedule [main_Class10010]))
 
-([main_Class10010] of  Agenda
+([main_Class10010] of  Schedule
 
 	(day [main_Class10013])
-	(name "John Brown's Agenda"))
+	(name_ "John Brown's Agenda"))
 
 ([main_Class10011] of  Jogging
 )
@@ -26,7 +27,7 @@
 	(date "14.03.2011")
 	(time+slot [main_Class10014]))
 
-([main_Class10014] of  Time+Slot
+([main_Class10014] of  Time+Interval
 
 	(activity [main_Class10015])
 	(end+time "10:00")
@@ -34,9 +35,10 @@
 
 ([main_Class10015] of  Lecture
 
-	(duretion [main_Class10016]))
+	(duration [main_Class10016]))
 
 ([main_Class10016] of  Duration
 
 	(hours "2")
 	(minutes "0"))
+)

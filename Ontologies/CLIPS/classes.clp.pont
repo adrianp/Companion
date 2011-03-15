@@ -1,4 +1,4 @@
-; Tue Mar 15 11:13:39 EET 2011
+; Tue Mar 15 12:46:01 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -9,11 +9,11 @@
 	(role abstract)
 	(multislot hobby
 		(type INSTANCE)
-;+		(allowed-classes Recreational+Activities)
+;+		(allowed-classes Leisure+Activity)
 		(create-accessor read-write))
 	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Slot)
+;+		(allowed-classes Time+Interval)
 		(create-accessor read-write))
 	(single-slot hours
 		(type STRING)
@@ -22,6 +22,15 @@
 	(single-slot main_Class13
 		(type STRING)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot name_
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot schedule
+		(type INSTANCE)
+;+		(allowed-classes Schedule)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot other+participants
 		(type INSTANCE)
@@ -39,11 +48,6 @@
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
 		(create-accessor read-write))
-	(single-slot duretion
-		(type INSTANCE)
-;+		(allowed-classes Duration)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(multislot profession
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
@@ -56,10 +60,10 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot agenda
+	(single-slot duration
 		(type INSTANCE)
-;+		(allowed-classes Agenda)
-;+		(cardinality 1 1)
+;+		(allowed-classes Duration)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot main_Class10008
 		(type STRING)
@@ -68,10 +72,6 @@
 	(multislot day
 		(type INSTANCE)
 ;+		(allowed-classes Day)
-		(create-accessor read-write))
-	(single-slot name_
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot activity
 		(type INSTANCE)
@@ -82,22 +82,22 @@
 (defclass Person
 	(is-a USER)
 	(role concrete)
+	(single-slot name_
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot schedule
+		(type INSTANCE)
+;+		(allowed-classes Schedule)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot profession
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
 		(create-accessor read-write))
 	(multislot hobby
 		(type INSTANCE)
-;+		(allowed-classes Recreational+Activities)
-		(create-accessor read-write))
-	(single-slot agenda
-		(type INSTANCE)
-;+		(allowed-classes Agenda)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot name_
-		(type STRING)
-;+		(cardinality 1 1)
+;+		(allowed-classes Leisure+Activity)
 		(create-accessor read-write)))
 
 (defclass Profession
@@ -112,16 +112,16 @@
 	(is-a Profession)
 	(role concrete))
 
-(defclass Agenda
+(defclass Schedule
 	(is-a USER)
 	(role concrete)
-	(multislot day
-		(type INSTANCE)
-;+		(allowed-classes Day)
-		(create-accessor read-write))
 	(single-slot name_
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot day
+		(type INSTANCE)
+;+		(allowed-classes Day)
 		(create-accessor read-write)))
 
 (defclass Activity
@@ -131,34 +131,34 @@
 		(type INSTANCE)
 ;+		(allowed-classes Person)
 		(create-accessor read-write))
-	(single-slot duretion
+	(single-slot duration
 		(type INSTANCE)
 ;+		(allowed-classes Duration)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-(defclass Recreational+Activities
+(defclass Leisure+Activity
 	(is-a Activity)
 	(role concrete))
 
 (defclass Jogging
-	(is-a Recreational+Activities)
+	(is-a Leisure+Activity)
 	(role concrete))
 
 (defclass Reading
-	(is-a Recreational+Activities)
+	(is-a Leisure+Activity)
 	(role concrete))
 
-(defclass Didactical+Activity
+(defclass Didactic+Activity
 	(is-a Activity)
 	(role concrete))
 
 (defclass Lecture
-	(is-a Didactical+Activity)
+	(is-a Didactic+Activity)
 	(role concrete))
 
 (defclass Laboratory
-	(is-a Didactical+Activity)
+	(is-a Didactic+Activity)
 	(role concrete))
 
 (defclass Meeting
@@ -181,7 +181,7 @@
 	(is-a USER)
 	(role concrete))
 
-(defclass Time+Slot
+(defclass Time+Interval
 	(is-a Time)
 	(role concrete)
 	(single-slot start+time
@@ -203,7 +203,7 @@
 	(role concrete)
 	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Slot)
+;+		(allowed-classes Time+Interval)
 		(create-accessor read-write))
 	(single-slot date
 		(type STRING)

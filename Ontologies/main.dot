@@ -1,21 +1,21 @@
 digraph main {
 	node [label="\N"];
-	graph [bb="0,0,546,774"];
+	graph [bb="0,0,552,774"];
 	main_Class10011 [label=main_Class10011, shape=box, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="69,556", width="1.92", height="0.50"];
-	main_Class10010 [label="{main_Class10010|{day =|{main_Class10013}}|{name =|{John Brown's Agenda}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,556", rects="156,568,390,593 156,543,232,568 232,543,390,568 156,518,227,543 227,518,390,543", width="3.25", height="1.04"];
-	main_Class10013 [label="{main_Class10013|{time slot =|{main_Class10014}}|{date =|{14.03.2011}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,426", rects="158,438,389,463 158,413,251,438 251,413,389,438 158,388,256,413 256,388,389,413", width="3.19", height="1.04"];
-	main_Class10014 [label="{main_Class10014|{start time =|{08:00}}|{activity =|{main_Class10015}}|{end time =|{10:00}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,284", rects="162,309,384,334 162,284,295,309 295,284,384,309 162,259,246,284 246,259,384,284 162,234,291,259 291,234,384,259", width="3.08", height="1.39"];
-	main_Class10012 [label=main_Class10012, shape=box, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="477,556", width="1.92", height="0.50"];
-	main_Class10015 [label="{main_Class10015|{duretion =|{main_Class10016}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,155", rects="159,155,388,180 159,130,250,155 250,130,388,155", width="3.17", height="0.69"];
-	main_Class10016 [label="{main_Class10016|{hours =|{2}}|{minutes =|{0}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,38", rects="204,50,342,75 204,25,296,50 296,25,342,50 204,0,304,25 304,0,342,25", width="1.92", height="1.04"];
-	main_Class10009 [label="{main_Class10009|{profession =|{main_Class10012}}|{hobby =|{main_Class10011}}|{agenda =|{main_Class10010}}|{name =|{John Brown}}\
-}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="273,711", rects="153,748,393,773 153,723,255,748 255,723,393,748 153,698,241,723 241,698,393,723 153,673,245,698 245,673,393,698 153,648,260,673 \
-260,648,393,673", width="3.33", height="1.74"];
-	main_Class10010 -> main_Class10013 [style=dashed, label=day, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,273,463 273,518 273,504 273,488 273,473", lp="286,491"];
-	main_Class10013 -> main_Class10014 [style=dashed, label="time slot", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,273,334 273,388 273,375 273,359 273,344", lp="303,361"];
-	main_Class10015 -> main_Class10016 [style=dashed, label=duretion, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,273,75 273,130 273,117 273,101 273,85", lp="303,103"];
-	main_Class10014 -> main_Class10015 [style=dashed, label=activity, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,273,180 273,234 273,220 273,204 273,190", lp="299,207"];
-	main_Class10009 -> main_Class10012 [style=dashed, label=profession, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,453,574 356,648 387,624 421,598 445,580", lp="436,621"];
-	main_Class10009 -> main_Class10011 [style=dashed, label=hobby, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,93,574 190,648 159,624 125,598 101,580", lp="187,621"];
-	main_Class10009 -> main_Class10010 [style=dashed, label=agenda, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,273,593 273,648 273,633 273,617 273,603", lp="298,621"];
+	main_Class10010 [label="{main_Class10010|{day =|{main_Class10013}}|{name_ =|{John Brown's Agenda}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,556", rects="156,568,397,593 156,543,236,568 236,543,397,568 156,518,234,543 234,518,397,543", width="3.33", height="1.04"];
+	main_Class10013 [label="{main_Class10013|{time slot =|{main_Class10014}}|{date =|{14.03.2011}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,426", rects="161,438,392,463 161,413,254,438 254,413,392,438 161,388,259,413 259,388,392,413", width="3.19", height="1.04"];
+	main_Class10014 [label="{main_Class10014|{start time =|{08:00}}|{activity =|{main_Class10015}}|{end time =|{10:00}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,284", rects="165,309,387,334 165,284,298,309 298,284,387,309 165,259,249,284 249,259,387,284 165,234,294,259 294,234,387,259", width="3.08", height="1.39"];
+	main_Class10012 [label=main_Class10012, shape=box, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="483,556", width="1.92", height="0.50"];
+	main_Class10015 [label="{main_Class10015|{duration =|{main_Class10016}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,155", rects="162,155,391,180 162,130,253,155 253,130,391,155", width="3.17", height="0.69"];
+	main_Class10016 [label="{main_Class10016|{hours =|{2}}|{minutes =|{0}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,38", rects="207,50,345,75 207,25,299,50 299,25,345,50 207,0,307,25 307,0,345,25", width="1.92", height="1.04"];
+	main_Class10009 [label="{main_Class10009|{profession =|{main_Class10012}}|{hobby =|{main_Class10011}}|{schedule =|{main_Class10010}}|{name_ =|{John Brow\
+n}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,711", rects="156,748,396,773 156,723,258,748 258,723,396,748 156,698,244,723 244,698,396,723 156,673,253,698 253,673,396,698 156,648,266,673 \
+266,648,396,673", width="3.33", height="1.74"];
+	main_Class10010 -> main_Class10013 [style=dashed, label=day, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,463 276,518 276,504 276,488 276,473", lp="289,491"];
+	main_Class10013 -> main_Class10014 [style=dashed, label="time slot", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,334 276,388 276,375 276,359 276,344", lp="306,361"];
+	main_Class10015 -> main_Class10016 [style=dashed, label=duration, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,75 276,130 276,117 276,101 276,85", lp="306,103"];
+	main_Class10014 -> main_Class10015 [style=dashed, label=activity, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,180 276,234 276,220 276,204 276,190", lp="302,207"];
+	main_Class10009 -> main_Class10012 [style=dashed, label=profession, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,459,574 360,648 392,624 427,598 451,580", lp="441,621"];
+	main_Class10009 -> main_Class10011 [style=dashed, label=hobby, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,93,574 192,648 160,624 125,598 101,580", lp="188,621"];
+	main_Class10009 -> main_Class10010 [style=dashed, label=schedule, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,593 276,648 276,633 276,617 276,603", lp="306,621"];
 }
