@@ -1,4 +1,4 @@
-; Tue Mar 15 11:13:26 EET 2011
+; Tue Mar 15 11:56:38 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -9,11 +9,11 @@
 	(role abstract)
 	(multislot hobby
 		(type INSTANCE)
-;+		(allowed-classes Recreational+Activities)
+;+		(allowed-classes Leisure+Activity)
 		(create-accessor read-write))
 	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Slot)
+;+		(allowed-classes Time+Interval)
 		(create-accessor read-write))
 	(single-slot hours
 		(type STRING)
@@ -31,13 +31,13 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot date
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot main_Class5
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(single-slot date
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot duretion
 		(type INSTANCE)
@@ -52,13 +52,13 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot start+time
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot agenda
 		(type INSTANCE)
 ;+		(allowed-classes Agenda)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot start+time
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot main_Class10008
@@ -88,7 +88,7 @@
 		(create-accessor read-write))
 	(multislot hobby
 		(type INSTANCE)
-;+		(allowed-classes Recreational+Activities)
+;+		(allowed-classes Leisure+Activity)
 		(create-accessor read-write))
 	(single-slot agenda
 		(type INSTANCE)
@@ -137,28 +137,28 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-(defclass Recreational+Activities
+(defclass Leisure+Activity
 	(is-a Activity)
 	(role concrete))
 
 (defclass Jogging
-	(is-a Recreational+Activities)
+	(is-a Leisure+Activity)
 	(role concrete))
 
 (defclass Reading
-	(is-a Recreational+Activities)
+	(is-a Leisure+Activity)
 	(role concrete))
 
-(defclass Didactical+Activity
+(defclass Didactic+Activity
 	(is-a Activity)
 	(role concrete))
 
 (defclass Lecture
-	(is-a Didactical+Activity)
+	(is-a Didactic+Activity)
 	(role concrete))
 
 (defclass Laboratory
-	(is-a Didactical+Activity)
+	(is-a Didactic+Activity)
 	(role concrete))
 
 (defclass Meeting
@@ -181,7 +181,7 @@
 	(is-a USER)
 	(role concrete))
 
-(defclass Time+Slot
+(defclass Time+Interval
 	(is-a Time)
 	(role concrete)
 	(single-slot start+time
@@ -203,7 +203,7 @@
 	(role concrete)
 	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Slot)
+;+		(allowed-classes Time+Interval)
 		(create-accessor read-write))
 	(single-slot date
 		(type STRING)

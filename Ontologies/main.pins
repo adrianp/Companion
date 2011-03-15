@@ -1,4 +1,4 @@
-; Tue Mar 15 11:13:26 EET 2011
+; Tue Mar 15 11:56:38 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -26,7 +26,7 @@
 	(date "14.03.2011")
 	(time+slot [main_Class10014]))
 
-([main_Class10014] of  Time+Slot
+([main_Class10014] of  Time+Interval
 
 	(activity [main_Class10015])
 	(end+time "10:00")
