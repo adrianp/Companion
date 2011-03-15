@@ -1,4 +1,42 @@
-; Mon Mar 14 21:49:06 EET 2011
+; Tue Mar 15 11:13:26 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
+
+([main_Class10009] of  Person
+
+	(agenda [main_Class10010])
+	(hobby [main_Class10011])
+	(name "John Brown")
+	(profession [main_Class10012]))
+
+([main_Class10010] of  Agenda
+
+	(day [main_Class10013])
+	(name "John Brown's Agenda"))
+
+([main_Class10011] of  Jogging
+)
+
+([main_Class10012] of  Professor
+)
+
+([main_Class10013] of  Day
+
+	(date "14.03.2011")
+	(time+slot [main_Class10014]))
+
+([main_Class10014] of  Time+Slot
+
+	(activity [main_Class10015])
+	(end+time "10:00")
+	(start+time "08:00"))
+
+([main_Class10015] of  Lecture
+
+	(duretion [main_Class10016]))
+
+([main_Class10016] of  Duration
+
+	(hours "2")
+	(minutes "0"))

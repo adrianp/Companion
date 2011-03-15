@@ -1,4 +1,4 @@
-; Mon Mar 14 22:24:29 EET 2011
+; Tue Mar 15 11:13:39 EET 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -11,15 +11,11 @@
 		(type INSTANCE)
 ;+		(allowed-classes Recreational+Activities)
 		(create-accessor read-write))
-	(single-slot hours
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot time+interval
+	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Interval)
+;+		(allowed-classes Time+Slot)
 		(create-accessor read-write))
-	(single-slot agenda+name
+	(single-slot hours
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
@@ -27,30 +23,26 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(single-slot person+name
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot other+participants
 		(type INSTANCE)
 ;+		(allowed-classes Person)
 		(create-accessor read-write))
-	(single-slot place
-		(type INSTANCE)
-;+		(allowed-classes Place)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot minutes
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot date
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot main_Class5
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(single-slot duretion
+		(type INSTANCE)
+;+		(allowed-classes Duration)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot profession
 		(type INSTANCE)
@@ -69,23 +61,22 @@
 ;+		(allowed-classes Agenda)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot duration
-		(type INSTANCE)
-;+		(allowed-classes Duration)
+	(single-slot main_Class10008
+		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot day
 		(type INSTANCE)
 ;+		(allowed-classes Day)
 		(create-accessor read-write))
+	(single-slot name_
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot activity
 		(type INSTANCE)
 ;+		(allowed-classes Activity)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot address
-		(type STRING)
-;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass Person
@@ -95,10 +86,6 @@
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
 		(create-accessor read-write))
-	(single-slot person+name
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot hobby
 		(type INSTANCE)
 ;+		(allowed-classes Recreational+Activities)
@@ -106,6 +93,10 @@
 	(single-slot agenda
 		(type INSTANCE)
 ;+		(allowed-classes Agenda)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot name_
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -128,7 +119,7 @@
 		(type INSTANCE)
 ;+		(allowed-classes Day)
 		(create-accessor read-write))
-	(single-slot agenda+name
+	(single-slot name_
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
@@ -140,12 +131,7 @@
 		(type INSTANCE)
 ;+		(allowed-classes Person)
 		(create-accessor read-write))
-	(single-slot place
-		(type INSTANCE)
-;+		(allowed-classes Place)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot duration
+	(single-slot duretion
 		(type INSTANCE)
 ;+		(allowed-classes Duration)
 ;+		(cardinality 0 1)
@@ -155,7 +141,7 @@
 	(is-a Activity)
 	(role concrete))
 
-(defclass Fishing
+(defclass Jogging
 	(is-a Recreational+Activities)
 	(role concrete))
 
@@ -195,7 +181,7 @@
 	(is-a USER)
 	(role concrete))
 
-(defclass Time+Interval
+(defclass Time+Slot
 	(is-a Time)
 	(role concrete)
 	(single-slot start+time
@@ -215,13 +201,13 @@
 (defclass Day
 	(is-a Time)
 	(role concrete)
-	(multislot time+interval
+	(multislot time+slot
 		(type INSTANCE)
-;+		(allowed-classes Time+Interval)
+;+		(allowed-classes Time+Slot)
 		(create-accessor read-write))
 	(single-slot date
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass Duration
@@ -229,17 +215,9 @@
 	(role concrete)
 	(single-slot hours
 		(type STRING)
-;+		(cardinality 0 1)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot minutes
 		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write)))
-
-(defclass Place
-	(is-a USER)
-	(role concrete)
-	(single-slot address
-		(type STRING)
-;+		(cardinality 0 1)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
