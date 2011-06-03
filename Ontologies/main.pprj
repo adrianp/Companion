@@ -1,4 +1,4 @@
-; Tue Mar 15 12:45:49 EET 2011
+; Sun May 08 15:10:43 EEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -21,9 +21,9 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[main_ProjectKB_Class10014]
-		[main_ProjectKB_Class10015]
-		[main_ProjectKB_Class10016]))
+		[main_ProjectKB_Class10006]
+		[main_ProjectKB_Class10007]
+		[main_ProjectKB_Class10008]))
 
 ([CLSES_TAB] of  Widget
 
@@ -68,7 +68,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_125072_Class5] of  Map
+([KB_341495_Class5] of  Map
 )
 
 ([KB_926280_Class0] of  String
@@ -79,11 +79,11 @@
 ([KB_926280_Class1] of  Map
 
 	(entries
-		[main_ProjectKB_Class10017]
-		[main_ProjectKB_Class10018]
-		[main_ProjectKB_Class10020]
-		[main_ProjectKB_Class10021])
-	(referenced_maps [main_ProjectKB_Class10019]))
+		[main_ProjectKB_Class10009]
+		[main_ProjectKB_Class10010]
+		[main_ProjectKB_Class10012]
+		[main_ProjectKB_Class10013])
+	(referenced_maps [main_ProjectKB_Class10011]))
 
 ([KB_926280_Class100] of  Property_List
 )
@@ -185,46 +185,46 @@
 ([main_ProjectKB_Class10] of  Property_List
 )
 
-([main_ProjectKB_Class10014] of  String
+([main_ProjectKB_Class10006] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([main_ProjectKB_Class10015] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([main_ProjectKB_Class10016] of  String
+([main_ProjectKB_Class10007] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([main_ProjectKB_Class10017] of  Map_Entry
+([main_ProjectKB_Class10008] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([main_ProjectKB_Class10009] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([main_ProjectKB_Class10018] of  Map_Entry
+([main_ProjectKB_Class10010] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([main_ProjectKB_Class10019] of  Map
+([main_ProjectKB_Class10011] of  Map
 )
 
-([main_ProjectKB_Class10020] of  Map_Entry
+([main_ProjectKB_Class10012] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "main_ProjectKB_Class10019")
+	(value "main_ProjectKB_Class10011")
 	(value_class "java.util.Map"))
 
-([main_ProjectKB_Class10021] of  Map_Entry
+([main_ProjectKB_Class10013] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
@@ -678,8 +678,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
+		[STANDARD_FACET_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")

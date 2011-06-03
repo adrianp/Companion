@@ -1,4 +1,4 @@
-; Tue Mar 15 12:45:49 EET 2011
+; Sun May 08 15:10:43 EEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -6,14 +6,14 @@
 ([main_Class10009] of  Person
 
 	(hobby [main_Class10011])
-	(name_ "John Brown")
+	(name "John Brown")
 	(profession [main_Class10012])
 	(schedule [main_Class10010]))
 
 ([main_Class10010] of  Schedule
 
 	(day [main_Class10013])
-	(name_ "John Brown's Agenda"))
+	(name "John Brown's Agenda"))
 
 ([main_Class10011] of  Jogging
 )

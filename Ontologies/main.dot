@@ -1,21 +1,74 @@
 digraph main {
 	node [label="\N"];
-	graph [bb="0,0,552,774"];
-	main_Class10011 [label=main_Class10011, shape=box, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="69,556", width="1.92", height="0.50"];
-	main_Class10010 [label="{main_Class10010|{day =|{main_Class10013}}|{name_ =|{John Brown's Agenda}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,556", rects="156,568,397,593 156,543,236,568 236,543,397,568 156,518,234,543 234,518,397,543", width="3.33", height="1.04"];
-	main_Class10013 [label="{main_Class10013|{time slot =|{main_Class10014}}|{date =|{14.03.2011}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,426", rects="161,438,392,463 161,413,254,438 254,413,392,438 161,388,259,413 259,388,392,413", width="3.19", height="1.04"];
-	main_Class10014 [label="{main_Class10014|{start time =|{08:00}}|{activity =|{main_Class10015}}|{end time =|{10:00}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,284", rects="165,309,387,334 165,284,298,309 298,284,387,309 165,259,249,284 249,259,387,284 165,234,294,259 294,234,387,259", width="3.08", height="1.39"];
-	main_Class10012 [label=main_Class10012, shape=box, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="483,556", width="1.92", height="0.50"];
-	main_Class10015 [label="{main_Class10015|{duration =|{main_Class10016}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,155", rects="162,155,391,180 162,130,253,155 253,130,391,155", width="3.17", height="0.69"];
-	main_Class10016 [label="{main_Class10016|{hours =|{2}}|{minutes =|{0}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,38", rects="207,50,345,75 207,25,299,50 299,25,345,50 207,0,307,25 307,0,345,25", width="1.92", height="1.04"];
-	main_Class10009 [label="{main_Class10009|{profession =|{main_Class10012}}|{hobby =|{main_Class10011}}|{schedule =|{main_Class10010}}|{name_ =|{John Brow\
-n}}}", shape=record, color="0.0,0.0,0.003921569", fontcolor="0.0,0.0,0.003921569", pos="276,711", rects="156,748,396,773 156,723,258,748 258,723,396,748 156,698,244,723 244,698,396,723 156,673,253,698 253,673,396,698 156,648,266,673 \
-266,648,396,673", width="3.33", height="1.74"];
-	main_Class10010 -> main_Class10013 [style=dashed, label=day, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,463 276,518 276,504 276,488 276,473", lp="289,491"];
-	main_Class10013 -> main_Class10014 [style=dashed, label="time slot", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,334 276,388 276,375 276,359 276,344", lp="306,361"];
-	main_Class10015 -> main_Class10016 [style=dashed, label=duration, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,75 276,130 276,117 276,101 276,85", lp="306,103"];
-	main_Class10014 -> main_Class10015 [style=dashed, label=activity, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,180 276,234 276,220 276,204 276,190", lp="302,207"];
-	main_Class10009 -> main_Class10012 [style=dashed, label=profession, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,459,574 360,648 392,624 427,598 451,580", lp="441,621"];
-	main_Class10009 -> main_Class10011 [style=dashed, label=hobby, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,93,574 192,648 160,624 125,598 101,580", lp="188,621"];
-	main_Class10009 -> main_Class10010 [style=dashed, label=schedule, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,276,593 276,648 276,633 276,617 276,603", lp="306,621"];
+	graph [bb="0,0,1386,1516"];
+	Schedule [label="{Schedule|{day|Instance*|{Day}}|{name|String}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="825,1478", rects="742,1490,909,1515 742,1465,783,1490 783,1465,865,1490 865,1465,909,1490 742,1440,823,1465 823,1440,909,1465", width="2.31", height="1.04"];
+	Day [label="{Day|{time slot|Instance*|{Time Interval}}|{date|String}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="664,1348", rects="531,1360,797,1385 531,1335,607,1360 607,1335,689,1360 689,1335,797,1360 531,1310,658,1335 658,1310,797,1335", width="3.69", height="1.04"];
+	Activity [label="{Activity|{other participants|Instance*|{Person}}|{duration|Instance|{Duration}}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="363,1064", rects="221,1076,505,1101 221,1051,360,1076 360,1051,442,1076 442,1051,505,1076 221,1026,314,1051 314,1026,408,1051 408,1026,505,1051", width="3.94", height="1.04"];
+	Person [label="{Person|{schedule|Instance|{Schedule}}|{profession|Instance*|{Profession}}|{hobby|Instance*|{Leisure Activity}}|{name|String}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="807,909", rects="676,946,939,971 676,921,763,946 763,921,849,946 849,921,939,946 676,896,764,921 764,896,849,921 849,896,938,921 676,871,734,896 \
+734,871,816,896 816,871,939,896 676,846,805,871 805,846,939,871", width="3.64", height="1.74"];
+	Duration [label="{Duration|{hours|String}|{minutes|String}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="113,909", rects="48,921,178,946 48,896,111,921 111,896,178,921 48,871,120,896 120,871,178,896", width="1.81", height="1.04"];
+	Meeting [label=Meeting, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="232,909", width="1.00", height="0.50"];
+	"Council Meeting" [label="Council Meeting", shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="247,556", width="1.75", height="0.50"];
+	"Job-related Meeting" [label="Job-related Meeting", shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="247,729", width="2.08", height="0.50"];
+	Lecture [label=Lecture, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="350,630", width="0.94", height="0.50"];
+	"Didactic Activity" [label="Didactic Activity", shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="350,909", width="1.78", height="0.50"];
+	"Time Interval" [label="{Time Interval|{start time|String}|{activity|Instance|{Activity}}|{end time|String}}", shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="516,1206", rects="411,1231,622,1256 411,1206,529,1231 529,1206,622,1231 411,1181,478,1206 478,1181,553,1206 553,1181,622,1206 411,1156,526,1181 52\
+6,1156,622,1181", width="2.92", height="1.39"];
+	Time [label=Time, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="494,1478", width="0.75", height="0.50"];
+	Medic [label=Medic, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="1273,556", width="0.75", height="0.50"];
+	Profession [label=Profession, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="988,729", width="1.19", height="0.50"];
+	main_Class10009 [label="{main_Class10009|{schedule =|{main_Class10010}}|{profession =|{main_Class10012}}|{hobby =|{main_Class10011}}|{name =|{John Brown\
+}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="807,729", rects="687,766,927,791 687,741,784,766 784,741,927,766 687,716,789,741 789,716,927,741 687,691,775,716 775,691,927,716 687,666,794,691 \
+794,666,927,691", width="3.33", height="1.74"];
+	main_Class10010 [label="{main_Class10010|{day =|{main_Class10013}}|{name =|{John Brown's Agenda}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="1111,556", rects="994,568,1228,593 994,543,1070,568 1070,543,1228,568 994,518,1065,543 1065,518,1228,543", width="3.25", height="1.04"];
+	main_Class10012 [label=main_Class10012, shape=box, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="868,426", width="1.92", height="0.50"];
+	main_Class10011 [label=main_Class10011, shape=box, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="670,426", width="1.92", height="0.50"];
+	"Leisure Activity" [label="Leisure Activity", shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="607,729", width="1.69", height="0.50"];
+	Jogging [label=Jogging, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="573,556", width="0.92", height="0.50"];
+	main_Class10013 [label="{main_Class10013|{time slot =|{main_Class10014}}|{date =|{14.03.2011}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="1111,426", rects="996,438,1227,463 996,413,1089,438 1089,413,1227,438 996,388,1094,413 1094,388,1227,413", width="3.19", height="1.04"];
+	main_Class10014 [label="{main_Class10014|{start time =|{08:00}}|{activity =|{main_Class10015}}|{end time =|{10:00}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="512,284", rects="401,309,623,334 401,284,534,309 534,284,623,309 401,259,485,284 485,259,623,284 401,234,530,259 530,234,623,259", width="3.08", height="1.39"];
+	Professor [label=Professor, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="936,556", width="1.11", height="0.50"];
+	main_Class10015 [label="{main_Class10015|{duration =|{main_Class10016}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="350,155", rects="236,155,465,180 236,130,327,155 327,130,465,155", width="3.17", height="0.69"];
+	main_Class10016 [label="{main_Class10016|{hours =|{2}}|{minutes =|{0}}}", shape=record, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", pos="95,38", rects="26,50,164,75 26,25,118,50 118,25,164,50 26,0,126,25 126,0,164,25", width="1.92", height="1.04"];
+	Laboratory [label=Laboratory, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="424,729", width="1.28", height="0.50"];
+	"Leisure Meeting" [label="Leisure Meeting", shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="91,729", width="1.75", height="0.50"];
+	Reading [label=Reading, shape=box, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", pos="659,556", width="0.97", height="0.50"];
+	Schedule -> Day [style=filled, label="day*", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,710,1385 778,1440 759,1424 737,1407 718,1391", lp="769,1413"];
+	Activity -> Person [style=filled, label="other participants*", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,676,955 472,1026 530,1005 603,980 666,958", lp="636,999"];
+	Activity -> Duration [style=filled, label=duration, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,150,946 261,1026 250,1020 238,1014 228,1008 203,992 178,971 157,953", lp="260,999"];
+	Activity -> Meeting [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,325,1026 318,1019 305,1004 290,987 277,972 265,957 253,940 244,927", lp="316,999"];
+	"Job-related Meeting" -> "Council Meeting" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,247,711 247,701 247,664 247,604 247,574", lp="256,630"];
+	Meeting -> "Job-related Meeting" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,234,891 235,881 237,843 243,778 245,747", lp="248,819"];
+	"Didactic Activity" -> Lecture [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,350,891 350,881 350,823 350,695 350,648", lp="359,819"];
+	Time -> "Time Interval" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,494,1460 494,1450 496,1416 498,1359 503,1310 505,1292 507,1273 509,1256", lp="512,1348"];
+	"Time Interval" -> Activity [style=filled, label=activity, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,403,1101 462,1156 446,1140 427,1123 410,1108", lp="468,1129"];
+	Profession -> Medic [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,1030,711 1039,707 1092,683 1174,642 1237,594 1244,588 1251,581 1257,574", lp="1214,630"];
+	Person -> main_Class10009 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,807,846 807,836 807,821 807,806 807,791", lp="813,819"];
+	main_Class10009 -> main_Class10010 [style=filled, label=schedule, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,1066,593 927,670 930,668 933,667 936,666 957,656 964,658 985,648 1011,635 1036,616 1058,599", lp="1068,630"];
+	main_Class10009 -> main_Class10012 [style=filled, label=profession, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,854,444 802,666 801,623 803,566 817,518 823,494 837,470 848,453", lp="852,556"];
+	main_Class10009 -> main_Class10011 [style=filled, label=hobby, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,678,444 778,666 748,601 703,501 682,453", lp="765,556"];
+	Time -> Day [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,518,1460 526,1454 551,1435 586,1407 615,1385", lp="597,1413"];
+	Day -> "Time Interval" [style=filled, label="time slot*", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,568,1256 624,1310 609,1296 592,1279 575,1263", lp="635,1283"];
+	Person -> Schedule [style=filled, label=schedule, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,825,1440 818,971 821,999 825,1033 825,1064 825,1348 825,1348 825,1348 825,1375 825,1405 825,1430", lp="855,1206"];
+	Person -> Profession [style=filled, label="profession*", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,974,747 879,846 898,829 918,810 936,792 947,780 959,767 968,755", lp="953,819"];
+	Person -> "Leisure Activity" [style=filled, label="hobby*", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,627,747 737,846 702,814 661,778 635,754", lp="736,819"];
+	Activity -> "Leisure Activity" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,391,1026 397,1018 452,943 556,798 594,747", lp="525,909"];
+	Jogging -> main_Class10011 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,586,538 592,530 612,504 640,466 656,444", lp="632,491"];
+	Schedule -> main_Class10010 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,909,1475 919,1475 1076,1467 1374,1440 1374,1348 1374,1348 1374,1348 1374,729 1374,686 1273,629 1196,593", lp="1380,1064"];
+	main_Class10010 -> main_Class10013 [style=filled, label=day, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,1111,463 1111,518 1111,504 1111,488 1111,473", lp="1123,491"];
+	Day -> main_Class10013 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,797,1333 807,1332 1002,1307 1328,1258 1328,1206 1328,1206 1328,1206 1328,556 1328,502 1279,470 1227,451", lp="1334,909"];
+	main_Class10013 -> main_Class10014 [style=filled, label="time slot", color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,623,310 996,399 892,374 739,337 633,312", lp="894,361"];
+	Profession -> Professor [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,983,711 980,701 969,665 950,604 941,574", lp="971,630"];
+	Professor -> main_Class10012 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,927,538 922,529 909,503 890,466 878,444", lp="911,491"];
+	Activity -> "Didactic Activity" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,350,1026 348,1016 348,1013 347,1011 347,1008 343,980 345,947 347,927", lp="356,999"];
+	Lecture -> main_Class10015 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,350,612 350,602 350,574 350,529 350,491 350,491 350,491 350,284 350,248 350,206 350,180", lp="356,426"];
+	main_Class10015 -> main_Class10016 [style=filled, label=duration, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,164,70 295,130 260,114 213,93 173,74", lp="280,103"];
+	"Time Interval" -> main_Class10014 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,525,1156 527,1146 533,1107 541,1054 545,1008 552,911 531,888 525,792 514,624 512,425 512,334", lp="531,729"];
+	main_Class10014 -> main_Class10015 [style=filled, label=activity, color="0.6666667,1.0,1.0", fontcolor="0.6666667,1.0,1.0", pos="e,381,180 449,234 429,218 407,201 389,187", lp="449,207"];
+	"Didactic Activity" -> Laboratory [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,358,891 362,882 377,844 403,778 417,747", lp="397,819"];
+	Duration -> main_Class10016 [label=io, color="0.0,1.0,1.0", fontcolor="0.0,1.0,1.0", dir=back, pos="s,72,871 65,864 35,830 1,780 0,729 0,729 0,729 0,155 0,123 22,96 44,75", lp="6,426"];
+	"Leisure Activity" -> Jogging [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,603,711 601,701 595,665 582,604 577,574", lp="598,630"];
+	Meeting -> "Leisure Meeting" [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,219,891 213,883 205,871 196,858 187,846 160,810 126,770 107,747", lp="181,819"];
+	"Leisure Activity" -> Reading [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,612,711 615,701 626,665 645,604 654,574", lp="649,630"];
+	Time -> Duration [label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", dir=back, pos="s,467,1475 457,1474 361,1460 119,1418 119,1348 119,1348 119,1348 119,1064 119,1024 117,978 115,946", lp="128,1206"];
 }
