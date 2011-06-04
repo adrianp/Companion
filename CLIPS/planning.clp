@@ -156,3 +156,35 @@
 	(retract ?a)
 	(assert (chain (threat $?x) (links ?y ?z)))
 )
+	
+(defrule R6_0
+	?a<-(chain (threat $?x) (links ?y ?z))
+	(test (not (eq A-N ?z)))
+	(ACTION (ID $?x) (preconditions $?w))
+	(ACTION (ID ?z) (preconditions $?v))
+	(Description (ID $?v) (type $?s) (parameters ?h))
+	?b<-(Description (ID $?w) (type $?s))
+	?c<-(CAUSAL-LINK (after $?x))
+	?d<-(ORDER-LINK (right $?x))
+	=>
+	(retract ?a)
+	(modify ?b (parameters ?h))
+	(modify ?c (before ?z))
+	(modify ?d (left ?z))
+)
+	
+(defrule R6_1
+	?a<-(chain (threat $?x) (links ?y ?z))
+	(test (not (eq A-0 ?y)))
+	(ACTION (ID $?x) (preconditions $?w))
+	(ACTION (ID ?y) (preconditions $?v))
+	(Description (ID $?v) (type $?s) (parameters ?h))
+	?b<-(Description (ID $?w) (type $?s))
+	?c<-(CAUSAL-LINK (after $?x))
+	?d<-(ORDER-LINK (right $?x))
+	=>
+	(retract ?a)
+	(modify ?b (parameters ?h))
+	(modify ?c (after ?y))
+	(modify ?d (right ?z))
+)
