@@ -45,12 +45,15 @@
 	(multislot links)
 )
 
+; 3 scopuri pregatire curs pentru facultate, pregatire laborator pentru facultate, sa fie la facultate in final
+
 (deffacts initial
 	(Description (ID D-0) (type pozitie) (parameters acasa))
 	(Description (ID D-1) (type pozitie) (parameters facultate))
-	(Description (ID D-2) (type pregatire) (parameters curs))
+	(Description (ID D-2) (type pregatire) (parameters facultate curs))
+	(Description (ID D-3) (type pregatire) (parameters facultate laborator))
 	(ACTION (ID A-0) (effects D-0))
-	(ACTION (ID A-N) (preconditions D-1 D-2))
+	(ACTION (ID A-N) (preconditions D-1 D-2 D-3))
 )
 
 (deffacts actiuni-posibile
@@ -59,8 +62,12 @@
 	(action-pattern (preconditions dp-1) (effects dp-0) (type deplasare))
 	
 	(description-pattern (ID dp-2) (type pozitie) (parameters biblioteca))
-	(description-pattern (ID dp-3) (type pregatire) (parameters))
+	(description-pattern (ID dp-3) (type pregatire) (parameters facultate curs))
 	(action-pattern (preconditions dp-2) (effects dp-3) (type studiu))
+	
+	(description-pattern (ID dp-4) (type pozitie) (parameters sala_experimente))
+	(description-pattern (ID dp-5) (type pregatire) (parameters facultate laborator))
+	(action-pattern (preconditions dp-4) (effects dp-5) (type studiu))
 )
 
 (defrule R0_1
@@ -68,7 +75,7 @@
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
 	(action-pattern (effects $?u) (preconditions $?u1)(type $?v))
-	(description-pattern (ID $?u) (type $?y))
+	(description-pattern (ID $?u) (type $?y) )
 	(description-pattern (ID $?u1) (parameters))
 	=>
 	(bind ?w (str-cat "D-"(gensym)))
@@ -86,7 +93,7 @@
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
 	(action-pattern (effects $?u) (preconditions $?u1) (type $?v))
-	(description-pattern (ID $?u) (type $?y))
+	(description-pattern (ID $?u)  (type $?y) (parameters $?z))
 	(description-pattern (ID $?u1) (type ?hhh) (parameters ?hh))
 	=>
 	(bind ?w (str-cat "D-"(gensym)))
@@ -109,6 +116,7 @@
 	(ACTION (ID $?w) (effects $?u))
 	(Description (ID $?u) (type $?s) (parameters $?v))
 	(ORDER-LINK (left $?w) (right $?x))
+	(not (stop $?x))
 	=>
 	(bind ?r (str-cat "D-"(gensym)))
 	(assert (Description (ID ?r) (type $?s) (parameters $?v)))
@@ -117,13 +125,14 @@
 )
 
 (defrule R2
-	(declare (salience 300))
+	(declare (salience 350))
 	(ACTION (ID $?x) (effects $?y))
 	(test (not (subset (mv-append A-0) $?x)))
 	(Description (ID $?y) (type $?z) (parameters $?t))
 	(CAUSAL-LINK (before $?w&~$?x) (after $?v&~$?x) (precondition $?u))
-	(Description (ID $?u) (type $?z) (parameters ~$?t))
+	(Description (ID $?u) (type $?z) (parameters $?k&:(neq (nth 1 $?k) (nth 1 $?t))))
 	(not (flaws (threat $?x)))
+	(not (stop $?x))
 	=>
 	(assert (flaws (threat $?x) (links $?w $?v)))
 )
@@ -134,9 +143,10 @@
 	(test (not (subset (mv-append A-0) $?x)))
 	(Description (ID $?y) (type $?z) (parameters $?t))
 	(CAUSAL-LINK (before $?w&~$?x) (after $?v&~$?x) (precondition $?u))
-	(Description (ID $?u) (type $?z) (parameters ~$?t))
+	(Description (ID $?u) (type $?z) (parameters $?k&:(neq (nth 1 $?k) (nth 1 $?t))))
 	?a<-(flaws (threat $?x) (links $?s))
 	(not (flaws (threat $?x) (links $? $?w $?v $?)))
+	(not (stop $?x))
 	=>
 	(retract ?a)
 	(assert (flaws (threat $?x) (links $?s $?w $?v)))
@@ -145,8 +155,19 @@
 (defrule R4
 	(declare (salience 200))
 	?a<-(flaws (threat $?x) (links $?y))
+	(not (stop $?x))
 	=>
 	(assert (chain (threat $?x) (links $?y)))
+)
+	
+; daca exista 2 atacuri reciproce, se pastreaza doar unul 
+	
+(defrule R8
+	(declare (salience 300))
+	?a<- (flaws (threat $?x) (links $? $?y  $?))
+	     (flaws (threat $?y) (links $? $?x  $?))
+	=>
+	(retract ?a) (assert (stop ?x))
 )
 	
 (defrule R5
@@ -157,34 +178,51 @@
 	(assert (chain (threat $?x) (links ?y ?z)))
 )
 	
-(defrule R6_0
-	?a<-(chain (threat $?x) (links ?y ?z))
+(defrule R9
+; atentie - regula sortare
+	(declare (salience 250))
+	?a1<-(flaws (threat $?z) (links $?a ?x $?t ?y $?b))
+	(ORDER-LINK (left ?y)(right ?x))
+	=>
+	(assert (stop ?z))
+	(modify ?a1 (links $?a ?y $?t ?x $?b))
+)
+
+; dupa sortare se formeaza lantul care va fi folosit in reprogramarea actiunii de catre regula R6
+
+(defrule R10
+	(declare (salience 150))
+	(flaws (threat $?z) (links $?a ))
+	=>
+	(assert (chain (threat $?z) (links $?a )))
+)
+
+(defrule R6
+	?b<-(chain (threat $?x) (links ?y ?z))
 	(test (not (eq A-N ?z)))
-	(ACTION (ID $?x) (preconditions $?w))
+	(ACTION (ID $?x) (preconditions $?w) )
 	(ACTION (ID ?z) (preconditions $?v))
 	(Description (ID $?v) (type $?s) (parameters ?h))
-	?b<-(Description (ID $?w) (type $?s))
-	?c<-(CAUSAL-LINK (after $?x))
-	?d<-(ORDER-LINK (right $?x))
+	?a<- (Description (ID $?w) (type $?s) )
+	?c <- (CAUSAL-LINK (after $?x))
+	?d<- (ORDER-LINK (right $?x))
 	=>
-	(retract ?a)
-	(modify ?b (parameters ?h))
+	(retract ?b)
+	(modify ?a (parameters ?h))
 	(modify ?c (before ?z))
-	(modify ?d (left ?z))
-)
+	(modify ?d (left ?z)))
 	
-(defrule R6_1
-	?a<-(chain (threat $?x) (links ?y ?z))
+(defrule R7
+	?b<-(chain (threat $?x) (links ?y ?z))
 	(test (not (eq A-0 ?y)))
-	(ACTION (ID $?x) (preconditions $?w))
+	(ACTION (ID $?x) (preconditions $?w) )
 	(ACTION (ID ?y) (preconditions $?v))
 	(Description (ID $?v) (type $?s) (parameters ?h))
-	?b<-(Description (ID $?w) (type $?s))
-	?c<-(CAUSAL-LINK (after $?x))
-	?d<-(ORDER-LINK (right $?x))
+	?a<- (Description (ID $?w) (type $?s) )
+	?c <- (CAUSAL-LINK (after $?x))
+	?d<- (ORDER-LINK (right $?x))
 	=>
-	(retract ?a)
-	(modify ?b (parameters ?h))
+	(retract ?b)
+	(modify ?a (parameters ?h))
 	(modify ?c (after ?y))
-	(modify ?d (right ?z))
-)
+	(modify ?d (right ?z)))
