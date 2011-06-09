@@ -1,39 +1,46 @@
 (deffacts f
 	(matrice m1 3 0 8 9 -8 0 2 -9 -2 0)
 	(matrice m2 3 0 8 9 -8 0 1 -9 -1 0)
+	(matrice m3 5 0 2 i i 7 -1 0 4 i i i -3 0 -1 i i i 2 0 5 -6 i i -4 0)
 )
 
-(deffunction fw (?n $?elem)
+(deffunction fw (?id ?n $?elem)
 	(loop-for-count (?k 1 ?n) do
 		(loop-for-count (?i 1 ?n) do
 			(loop-for-count (?j 1 ?n) do
-				(bind ?ij (nth (+ ?j (* 3 (- ?i 1))) $?elem))
-				(bind ?ik (nth (+ ?k (* 3 (- ?i 1))) $?elem))
-				(bind ?kj (nth (+ ?j (* 3 (- ?k 1))) $?elem))
+				(bind ?p (+ ?j (* ?n (- ?i 1))))
+				(bind ?ij (nth ?p $?elem))
+				(bind ?ik (nth (+ ?k (* ?n (- ?i 1))) $?elem))
+				(bind ?kj (nth (+ ?j (* ?n (- ?k 1))) $?elem))
 				(if (numberp ?ij) 
 					then
 					(if (and (numberp ?ik) (numberp ?kj))
 						then
 						(if (> ?ij (+ ?ik ?kj))
 							then
-								(bind $?elem (replace$ $?elem (+ ?j (* 3 (- ?i 1))) (+ ?j (* 3 (- ?i 1))) (+ ?ik ?kj)))
+							(bind $?elem (replace$ $?elem ?p ?p (+ ?ik ?kj)))
 						)
 					)
-				) 
+					else
+					(if (and (numberp ?ik) (numberp ?kj))
+						then
+						(bind $?elem (replace$ $?elem ?p ?p (+ ?ik ?kj)))
+					)
+				)
 			)
 		)
 	)
-	(assert (rezultat ?n $?elem))
+	(assert (rezultat ?id ?n $?elem))
 )
 
-(deffunction checkConsistency (?n $?elem)
+(deffunction checkConsistency (?id ?n $?elem)
 	(loop-for-count (?i 1 ?n) do
 		(loop-for-count (?j 1 ?n) do
 			(if (= ?i ?j)
 				then
-					(if (> 0 (nth (+ ?j (* 3 (- ?i 1))) $?elem))
+					(if (> 0 (nth (+ ?j (* ?n (- ?i 1))) $?elem))
 						then
-						(assert (incosistenta))
+						(assert (incosistenta ?id))
 						(break)
 					)
 			)
@@ -43,13 +50,14 @@
 
 
 (defrule R0
-	(matrice m1 ?n $?elem)
+	(matrice ?id ?n $?elem)
 	=>
-	(fw ?n $?elem)
+	(fw ?id ?n $?elem)
 )
 
 (defrule R1
-	(rezultat ?n $?elem)
+	?a<-(rezultat ?id ?n $?elem)
 	=>
-	(checkConsistency ?n $?elem)
+	(retract ?a)
+	(checkConsistency ?id ?n $?elem)
 )
