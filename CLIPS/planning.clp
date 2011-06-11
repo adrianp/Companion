@@ -1,3 +1,59 @@
+;FUNCTII
+(deffunction minus ($?d)
+	(loop-for-count (?i 1 (length $?d)) do
+		(bind $?d (replace$ $?d ?i ?i (- 0 (nth ?i $?d))))
+	)
+	(return $?d)
+)
+
+(deffunction fw (?id ?n $?elem)
+	(loop-for-count (?k 1 ?n) do
+		(loop-for-count (?i 1 ?n) do
+			(loop-for-count (?j 1 ?n) do
+				(bind ?p (+ ?j (* ?n (- ?i 1))))
+				(bind ?ij (nth ?p $?elem))
+				(bind ?ik (nth (+ ?k (* ?n (- ?i 1))) $?elem))
+				(bind ?kj (nth (+ ?j (* ?n (- ?k 1))) $?elem))
+				(if (numberp ?ij) 
+					then
+					(if (and (numberp ?ik) (numberp ?kj))
+						then
+						(if (> ?ij (+ ?ik ?kj))
+							then
+							(bind $?elem (replace$ $?elem ?p ?p (+ ?ik ?kj)))
+						)
+					)
+					else
+					(if (and (numberp ?ik) (numberp ?kj))
+						then
+						(bind $?elem (replace$ $?elem ?p ?p (+ ?ik ?kj)))
+					)
+				)
+			)
+		)
+	)
+	(assert (minimal-matrix ?id ?n $?elem))
+	(return $?elem)
+)
+
+(deffunction checkConsistency (?id ?n $?elem)
+	(loop-for-count (?i 1 ?n) do
+		(loop-for-count (?j 1 ?n) do
+			(if (= ?i ?j)
+				then
+					(if (> 0 (nth (+ ?j (* ?n (- ?i 1))) $?elem))
+						then
+						(assert (incosistenta ?id))
+						(return)
+					)
+			)
+		)
+	)
+	(assert (consistenta ?id))
+)
+;END FUNCTII
+
+;REGULI
 (defrule R0
 	?a<-(reset gen)
 	=>
@@ -10,14 +66,14 @@
 	(ACTION (ID $?t) (preconditions $? ?x $?))
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
-	(action-pattern (effects $?u) (preconditions $?u1)(type $?v))
+	(action-pattern (effects $?u) (preconditions $?u1)(type $?v) (durata $?dur))
 	(description-pattern (ID $?u) (type $?y))
 	(description-pattern (ID $?u1) (parameters))
 	=>
 	(bind ?w (str-cat "D-"(gensym)))
 	(bind ?s (str-cat "A-"(gensym)))
 	(assert (Description (ID ?w) (type ?y) (parameters ?z)))
-	(assert (ACTION (ID ?s) (type $?v) (preconditions) (effects ?w)))
+	(assert (ACTION (ID ?s) (type $?v) (preconditions) (effects ?w) (durata $?dur)))
 	(assert (CAUSAL-LINK (before ?s) (after ?t) (precondition ?x)))
 	(assert (ORDER-LINK (left ?s) (right ?t)))
 	(assert (ORDER-LINK (left A-0) (right ?s)))
@@ -29,7 +85,7 @@
 	(ACTION (ID $?t) (preconditions $? ?x $?))
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
-	(action-pattern (effects $?u) (preconditions $?u1) (type $?v))
+	(action-pattern (effects $?u) (preconditions $?u1) (type $?v) (durata $?dur))
 	(description-pattern (ID $?u)  (type $?y) (parameters $?z))
 	(description-pattern (ID $?u1) (type ?hhh) (parameters ?hh))
 	=>
@@ -38,7 +94,7 @@
 	(bind ?ww (str-cat "D-"(gensym)))
 	(assert (Description (ID ?w) (type ?y) (parameters ?z)))
 	(assert (Description (ID ?ww) (type ?hhh) (parameters ?hh)))
-	(assert (ACTION (ID ?s) (type $?v) (preconditions ?ww) (effects ?w)))
+	(assert (ACTION (ID ?s) (type $?v) (preconditions ?ww) (effects ?w) (durata $?dur)))
 	(assert (CAUSAL-LINK (before ?s) (after ?t) (precondition ?x)))
 	(assert (ORDER-LINK (left ?s) (right ?t)))
 	(assert (ORDER-LINK (left A-0) (right ?s)))
@@ -128,7 +184,7 @@
 	(modify ?a (links $?v ?y $?t ?x $?w))
 )
 
-;formarea lantului folosit in reprogramarea actiunii de catre regula R6(?)
+;formarea lantului folosit in reprogramarea actiunii de catre regulile R9
 (defrule R8
 	(declare (salience 200))
 	(flaws (threat $?z) (links $?a))
@@ -169,3 +225,175 @@
 	(modify ?c (after ?y))
 	(modify ?d (right ?z))
 )
+
+;asignare timp deplasari
+(defrule R10
+	(declare (salience -100))
+	?a<-(ACTION (preconditions $?x) (effects $?y) (type deplasare) (durata))
+	(Description (ID $?x) (type pozitie) (parameters $?z))
+	(Description (ID $?y) (type pozitie) (parameters $?t))
+	(durata-deplasare (initial $?z) (final $?t) (durata $?v))
+	=>
+	(modify ?a (durata $?v))
+)
+
+;creare lant graf
+(defrule R11_1
+	(declare (salience -200))
+	?a<-(graf $?y)
+	(ACTION (ID $?x))
+	(not (graf $? $?x $?))
+	=>
+	(retract ?a)
+	(assert (graf $?x $?y))
+)
+
+;ordonare graf
+(defrule R11_2
+	(declare (salience -200))
+	?a<-(graf $?v $?x $?b $?y $?w)
+	(ORDER-LINK (left $?y) (right $?x))
+	=>
+	(retract ?a)
+	(assert (graf $?v $?y $?b $?x $?w))
+)	
+
+;eliminare ordonari fata de A0 redundante
+(defrule R12_1
+	(declare (salience -300))
+	(graf ? ?x $?)
+	?a<-(ORDER-LINK (left A-0) (right $?y))
+	(test (not (subset (mv-append ?x) $?y)))
+	=>
+	(retract ?a)
+)
+
+;eliminare ordonari fata de AN redundante
+(defrule R12_2
+	(declare (salience -300))
+	(graf $? ?x ?)
+	?a<-(ORDER-LINK (left $?y) (right A-N))
+	(test (not (subset (mv-append ?x) $?y)))
+	=>
+	(retract ?a)
+)
+
+(defglobal ?*A* = 0)
+
+;elem creare elemente matrice
+(defrule R13
+	(declare (salience -400))
+	(ACTION (ID $?x))
+	(graf $? ?y $?)
+	=>
+	(bind ?*A* (+ 1 ?*A*))
+	(assert (elem (index ?*A*) (first $?x) (second $?y)))
+)
+
+;ordonare elemente matrice
+(defrule R14_1
+	?v<-(elem (index ?i1) (first $?a) (second $?x) (durata $?y))
+	?w<-(elem (index ?i2) (first $?b) (second $?z) (durata $?t))
+	(ORDER-LINK (left $?b) (right $?a))
+	(test (> ?i2 ?i1))
+	=>
+	(retract ?v ?w)
+	(assert (elem (index ?i2) (first $?a) (second $?x) (durata $?y)))
+	(assert (elem (index ?i1) (first $?b) (second $?z) (durata $?t)))
+)
+
+;ordonare elemente matrice
+(defrule R14_2
+	?v<-(elem (index ?i1) (first $?a) (second $?x) (durata $?y))
+	?w<-(elem (index ?i2) (first $?a) (second $?z) (durata $?t))
+	(ORDER-LINK (left $?z) (right $?x))
+	(test (> ?i2 ?i1))
+	=>
+	(retract ?v ?w)
+	(assert (elem (index ?i2) (first $?a) (second $?x) (durata $?y)))
+	(assert (elem (index ?i1) (first $?a) (second $?z) (durata $?t)))
+)
+
+;caz +
+(defrule R15_1
+	(graf $? ?x ?y $?)
+	?a<-(elem (first ?x) (second ?y) (durata $?v))
+	(test (eq $?v (mv-append)))
+	(test (neq A-0 ?x))
+	(ACTION (ID ?x) (durata $?z))
+	=>
+	(modify ?a (durata $?z))
+)
+	
+;caz -
+(defrule R15_2
+	(graf $? ?x ?y $?)
+	?a<-(elem (first ?y) (second ?x) (durata $?v))
+	(test (eq $?v (mv-append)))
+	(ACTION (ID ?x) (durata $?z))
+	(test (neq A-0 ?x))
+	=>
+	(bind $?w (minus $?z))
+	(modify ?a (durata $?w))
+)
+
+;caz explicit
+(defrule R15_3
+	(timp-explicit (firstA $?x) (secondA $?y) (durata $?z))
+	?a<-(elem (first $?x) (second $?y) (durata $?v))
+	?b<-(elem (first $?y) (second $?x) (durata $?w))
+	(test (eq $?v (mv-append)))
+	(test (eq $?w (mv-append)))
+	=>
+	(bind $?s (minus $?z))
+	(modify ?a (durata $?z))
+	(modify ?b (durata $?s))
+)
+
+;caz 0
+(defrule R15_5
+	?a<-(elem (first $?x) (second $?x) (durata $?v))
+	(test (eq $?v (mv-append)))
+	=>
+	(modify ?a (durata 0))
+)
+
+;creare matrice initial
+(defrule R16
+	(declare (salience -300))
+	(graf $?x)
+	(not (matrix $?))
+	=>
+	(assert (matrix (gensym) (length $?x)))
+)
+
+;completare matrice
+(defrule R17_1
+	(declare (salience -500))
+	?a<-(elem (index ?x) (durata ?y))
+	(not (elem (index ?z&:(< ?z ?x))))
+	?b<-(matrix ?id ?dim $?r)
+	=>
+	(retract ?a ?b)
+	(assert (matrix ?id ?dim $?r ?y))
+)
+
+(defrule R17_2
+	(declare (salience -500))
+	?a<-(elem (index ?x) (durata $?y))
+	(test (eq $?y (mv-append)))
+	(not (elem (index ?z&:(< ?z ?x))))
+	?b<-(matrix ?id ?dim $?r)
+	=>
+	(retract ?a ?b)
+	(assert (matrix ?id ?dim $?r i))
+)
+
+(defrule R18
+	(declare (salience -600))
+	(matrix ?id ?n $?elem)
+	=>
+	(bind $?r (fw ?id ?n $?elem))
+	(checkConsistency ?id ?n $?r)
+)
+;END REGULI
