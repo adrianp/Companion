@@ -1,4 +1,20 @@
+;Algoritmul propriu-zis de planificare
+;Lucreaza in 2 pasi: in primul este realizat planul prin intermediul unui algoritm
+;de planificare in spatiul planurilor dupa care in al doilea pas se verifica
+;acest plan din punct de vedere al planificarii tenporale
+
+;VARIABILE
+
+;variabile globala folosita in numerotarea elementelor matricii ce memoreaza
+;dinstantele intre nodurile grafului
+(defglobal ?*A* = 0)
+
+;END VARIABILE
+
 ;FUNCTII
+
+;functie ce primeste o lista de numere pozitive si intoarce lista cu aceleasi
+;numere dar cu semn schimbat (negative)
 (deffunction minus ($?d)
 	(loop-for-count (?i 1 (length $?d)) do
 		(bind $?d (replace$ $?d ?i ?i (- 0 (nth ?i $?d))))
@@ -6,6 +22,7 @@
 	(return $?d)
 )
 
+;implementarea algoritmului Floyd-Warshall
 (deffunction fw (?id ?n $?elem)
 	(loop-for-count (?k 1 ?n) do
 		(loop-for-count (?i 1 ?n) do
@@ -36,6 +53,7 @@
 	(return $?elem)
 )
 
+;verificarea consistentei unui graf pe baza matricii distantelor minime intre noduri
 (deffunction checkConsistency (?id ?n $?elem)
 	(loop-for-count (?i 1 ?n) do
 		(loop-for-count (?j 1 ?n) do
@@ -43,17 +61,20 @@
 				then
 					(if (> 0 (nth (+ ?j (* ?n (- ?i 1))) $?elem))
 						then
-						(assert (incosistenta ?id))
+						(assert (not-cosistent ?id))
 						(return)
 					)
 			)
 		)
 	)
-	(assert (consistenta ?id))
+	(assert (consistency ?id))
 )
 ;END FUNCTII
 
 ;REGULI
+
+;regula cu rol intern, reseteaza IDurile folosite pentru denumirea diverselor
+;elemente
 (defrule R0
 	?a<-(reset gen)
 	=>
@@ -61,31 +82,31 @@
 	(setgen 1)
 )
 
-;cautarea unui scop neindeplinit fara parametri in preconditii
-(defrule R1_1
+;cautarea unui scop neindeplinit (fara parametri) in preconditii
+(defrule R1_0
 	(ACTION (ID $?t) (preconditions $? ?x $?))
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
-	(action-pattern (effects $?u) (preconditions $?u1)(type $?v) (durata $?dur))
+	(action-pattern (effects $?u) (preconditions $?u1) (type $?v) (duration $?dur))
 	(description-pattern (ID $?u) (type $?y))
 	(description-pattern (ID $?u1) (parameters))
 	=>
 	(bind ?w (str-cat "D-"(gensym)))
 	(bind ?s (str-cat "A-"(gensym)))
 	(assert (Description (ID ?w) (type ?y) (parameters ?z)))
-	(assert (ACTION (ID ?s) (type $?v) (preconditions) (effects ?w) (durata $?dur)))
+	(assert (ACTION (ID ?s) (type $?v) (preconditions) (effects ?w) (duration $?dur)))
 	(assert (CAUSAL-LINK (before ?s) (after ?t) (precondition ?x)))
 	(assert (ORDER-LINK (left ?s) (right ?t)))
 	(assert (ORDER-LINK (left A-0) (right ?s)))
 	(assert (ORDER-LINK (left ?s) (right A-N)))
 )
 
-;cautarea unui scop neindeplinit cu parametri in preconditii
-(defrule R1_2
+;cautarea unui scop neindeplinit (cu parametri) in preconditii
+(defrule R1_1
 	(ACTION (ID $?t) (preconditions $? ?x $?))
 	(Description (ID ?x) (type $?y) (parameters $?z))
 	(not (CAUSAL-LINK (after $?t) (precondition ?x)))
-	(action-pattern (effects $?u) (preconditions $?u1) (type $?v) (durata $?dur))
+	(action-pattern (effects $?u) (preconditions $?u1) (type $?v) (duration $?dur))
 	(description-pattern (ID $?u)  (type $?y) (parameters $?z))
 	(description-pattern (ID $?u1) (type ?hhh) (parameters ?hh))
 	=>
@@ -94,7 +115,7 @@
 	(bind ?ww (str-cat "D-"(gensym)))
 	(assert (Description (ID ?w) (type ?y) (parameters ?z)))
 	(assert (Description (ID ?ww) (type ?hhh) (parameters ?hh)))
-	(assert (ACTION (ID ?s) (type $?v) (preconditions ?ww) (effects ?w) (durata $?dur)))
+	(assert (ACTION (ID ?s) (type $?v) (preconditions ?ww) (effects ?w) (duration $?dur)))
 	(assert (CAUSAL-LINK (before ?s) (after ?t) (precondition ?x)))
 	(assert (ORDER-LINK (left ?s) (right ?t)))
 	(assert (ORDER-LINK (left A-0) (right ?s)))
@@ -119,7 +140,8 @@
 )
 
 ;cautare conflicte (actiune care prin efectele sale pun in pericol o legatura cauzala)
-(defrule R3_1
+;tratarea cazului in care pentru actiunea gasita nu exista deja alte legaturi periclitate
+(defrule R3_0
 	(declare (salience 600))
 	(ACTION (ID $?x) (effects $?y))
 	(test (not (subset (mv-append A-0) $?x)))
@@ -132,7 +154,9 @@
 	(assert (flaws (threat $?x) (links $?w $?v)))
 )
 
-(defrule R3_2
+;cautare conflicte (actiune care prin efectele sale pun in pericol o legatura cauzala)
+;tratarea cazului in care pentru actiunea gasita exista alte legaturi periclitate
+(defrule R3_1
 	(declare (salience 500))
 	(ACTION (ID $?x) (effects $?y))
 	(test (not (subset (mv-append A-0) $?x)))
@@ -156,7 +180,7 @@
 	(assert (chain (threat $?x) (links $?y)))
 )
 
-; daca exista 2 atacuri reciproce, se pastreaza doar unul 
+;daca exista 2 atacuri reciproce (A ataca B si B ataca A), se pastreaza doar unul
 (defrule R5
 	(declare (salience 500))
 	?a<-(flaws (threat $?x) (links $? $?y  $?))
@@ -165,7 +189,7 @@
 	(retract ?a) (assert (stop ?x))
 )
 
-;eliminare actiuni redundate din lant
+;eliminare actiuni redundate (A B B C -> A B C) din lant
 (defrule R6
 	(declare (salience 100))
 	?a<-(chain (threat $?x) (links $?y ?f ?f $?z))
@@ -193,7 +217,7 @@
 )
 
 ;rezolvare conflict prin reprogramare "dupa"
-(defrule R9_1
+(defrule R9_0
 	?a<-(chain (threat $?x) (links ?y ?z))
 	(test (not (eq A-N ?z)))
 	(ACTION (ID $?x) (preconditions $?w))
@@ -210,7 +234,7 @@
 )
 
 ;rezolvare conflict prin reprogramare "inainte"
-(defrule R9_2
+(defrule R9_1
 	?a<-(chain (threat $?x) (links ?y ?z))
 	(test (not (eq A-0 ?y)))
 	(ACTION (ID $?x) (preconditions $?w))
@@ -226,19 +250,19 @@
 	(modify ?d (right ?z))
 )
 
-;asignare timp deplasari
+;asignare timp deplasari folosind datele existente
 (defrule R10
 	(declare (salience -100))
-	?a<-(ACTION (preconditions $?x) (effects $?y) (type deplasare) (durata))
+	?a<-(ACTION (preconditions $?x) (effects $?y) (type travelling) (duration))
 	(Description (ID $?x) (type pozitie) (parameters $?z))
 	(Description (ID $?y) (type pozitie) (parameters $?t))
-	(durata-deplasare (initial $?z) (final $?t) (durata $?v))
+	(duration-travelling (initial $?z) (final $?t) (duration $?v))
 	=>
-	(modify ?a (durata $?v))
+	(modify ?a (duration $?v))
 )
 
-;creare lant graf
-(defrule R11_1
+;creare graf
+(defrule R11_0
 	(declare (salience -200))
 	?a<-(graf $?y)
 	(ACTION (ID $?x))
@@ -248,8 +272,8 @@
 	(assert (graf $?x $?y))
 )
 
-;ordonare graf
-(defrule R11_2
+;ordonare graf in functie de legaturile de ordine
+(defrule R11_1
 	(declare (salience -200))
 	?a<-(graf $?v $?x $?b $?y $?w)
 	(ORDER-LINK (left $?y) (right $?x))
@@ -258,8 +282,9 @@
 	(assert (graf $?v $?y $?b $?x $?w))
 )	
 
-;eliminare ordonari fata de A0 redundante
-(defrule R12_1
+;eliminare ordonari fata de A-0 redundante (este pastrata doar legatura de ordine
+;a primei actiuni din plan si A-0)
+(defrule R12_0
 	(declare (salience -300))
 	(graf ? ?x $?)
 	?a<-(ORDER-LINK (left A-0) (right $?y))
@@ -268,8 +293,9 @@
 	(retract ?a)
 )
 
-;eliminare ordonari fata de AN redundante
-(defrule R12_2
+;eliminare ordonari fata de A-N redundante (este pastrata doar legatura de ordine
+;a ultimei actiuni din plan si A-N)
+(defrule R12_1
 	(declare (salience -300))
 	(graf $? ?x ?)
 	?a<-(ORDER-LINK (left $?y) (right A-N))
@@ -278,9 +304,7 @@
 	(retract ?a)
 )
 
-(defglobal ?*A* = 0)
-
-;elem creare elemente matrice
+;creare elemente matrice
 (defrule R13
 	(declare (salience -400))
 	(ACTION (ID $?x))
@@ -290,75 +314,75 @@
 	(assert (elem (index ?*A*) (first $?x) (second $?y)))
 )
 
-;ordonare elemente matrice
-(defrule R14_1
-	?v<-(elem (index ?i1) (first $?a) (second $?x) (durata $?y))
-	?w<-(elem (index ?i2) (first $?b) (second $?z) (durata $?t))
+;ordonare elemente matrice in functie de legaturile de ordine (dupa primul camp)
+(defrule R14_0
+	?v<-(elem (index ?i1) (first $?a) (second $?x) (duration $?y))
+	?w<-(elem (index ?i2) (first $?b) (second $?z) (duration $?t))
 	(ORDER-LINK (left $?b) (right $?a))
 	(test (> ?i2 ?i1))
 	=>
 	(retract ?v ?w)
-	(assert (elem (index ?i2) (first $?a) (second $?x) (durata $?y)))
-	(assert (elem (index ?i1) (first $?b) (second $?z) (durata $?t)))
+	(assert (elem (index ?i2) (first $?a) (second $?x) (duration $?y)))
+	(assert (elem (index ?i1) (first $?b) (second $?z) (duration $?t)))
 )
 
-;ordonare elemente matrice
-(defrule R14_2
-	?v<-(elem (index ?i1) (first $?a) (second $?x) (durata $?y))
-	?w<-(elem (index ?i2) (first $?a) (second $?z) (durata $?t))
+;ordonare elemente matrice in functie de legaturile de ordine (dupa al doilea camp)
+(defrule R14_1
+	?v<-(elem (index ?i1) (first $?a) (second $?x) (duration $?y))
+	?w<-(elem (index ?i2) (first $?a) (second $?z) (duration $?t))
 	(ORDER-LINK (left $?z) (right $?x))
 	(test (> ?i2 ?i1))
 	=>
 	(retract ?v ?w)
-	(assert (elem (index ?i2) (first $?a) (second $?x) (durata $?y)))
-	(assert (elem (index ?i1) (first $?a) (second $?z) (durata $?t)))
+	(assert (elem (index ?i2) (first $?a) (second $?x) (duration $?y)))
+	(assert (elem (index ?i1) (first $?a) (second $?z) (duration $?t)))
 )
 
-;caz +
-(defrule R15_1
+;etichetare arce graf +
+(defrule R15_0
 	(graf $? ?x ?y $?)
-	?a<-(elem (first ?x) (second ?y) (durata $?v))
+	?a<-(elem (first ?x) (second ?y) (duration $?v))
 	(test (eq $?v (mv-append)))
 	(test (neq A-0 ?x))
-	(ACTION (ID ?x) (durata $?z))
+	(ACTION (ID ?x) (duration $?z))
 	=>
-	(modify ?a (durata $?z))
+	(modify ?a (duration $?z))
 )
 	
-;caz -
-(defrule R15_2
+;etichetare arce graf -
+(defrule R15_1
 	(graf $? ?x ?y $?)
-	?a<-(elem (first ?y) (second ?x) (durata $?v))
+	?a<-(elem (first ?y) (second ?x) (duration $?v))
 	(test (eq $?v (mv-append)))
-	(ACTION (ID ?x) (durata $?z))
+	(ACTION (ID ?x) (duration $?z))
 	(test (neq A-0 ?x))
 	=>
 	(bind $?w (minus $?z))
-	(modify ?a (durata $?w))
+	(modify ?a (duration $?w))
 )
 
-;caz explicit
-(defrule R15_3
-	(timp-explicit (firstA $?x) (secondA $?y) (durata $?z))
-	?a<-(elem (first $?x) (second $?y) (durata $?v))
-	?b<-(elem (first $?y) (second $?x) (durata $?w))
+;etichetare arce graf valori date explicit
+(defrule R15_2
+	(explicit-time (firstA $?x) (secondA $?y) (duration $?z))
+	?a<-(elem (first $?x) (second $?y) (duration $?v))
+	?b<-(elem (first $?y) (second $?x) (duration $?w))
 	(test (eq $?v (mv-append)))
 	(test (eq $?w (mv-append)))
 	=>
 	(bind $?s (minus $?z))
-	(modify ?a (durata $?z))
-	(modify ?b (durata $?s))
+	(modify ?a (duration $?z))
+	(modify ?b (duration $?s))
 )
 
-;caz 0
-(defrule R15_5
-	?a<-(elem (first $?x) (second $?x) (durata $?v))
+;etichetare arce graf (de la un nod la el insusi - 0)
+(defrule R15_3
+	?a<-(elem (first $?x) (second $?x) (duration $?v))
 	(test (eq $?v (mv-append)))
 	=>
-	(modify ?a (durata 0))
+	(modify ?a (duration 0))
 )
 
-;creare matrice initial
+;creare fapt matrice
 (defrule R16
 	(declare (salience -300))
 	(graf $?x)
@@ -367,10 +391,10 @@
 	(assert (matrix (gensym) (length $?x)))
 )
 
-;completare matrice
-(defrule R17_1
+;completare matrice cu elemente cu durata specificata
+(defrule R17_0
 	(declare (salience -500))
-	?a<-(elem (index ?x) (durata ?y))
+	?a<-(elem (index ?x) (duration ?y))
 	(not (elem (index ?z&:(< ?z ?x))))
 	?b<-(matrix ?id ?dim $?r)
 	=>
@@ -378,9 +402,10 @@
 	(assert (matrix ?id ?dim $?r ?y))
 )
 
-(defrule R17_2
+;completare matrice cu elemente cu durata nespecificata
+(defrule R17_1
 	(declare (salience -500))
-	?a<-(elem (index ?x) (durata $?y))
+	?a<-(elem (index ?x) (duration $?y))
 	(test (eq $?y (mv-append)))
 	(not (elem (index ?z&:(< ?z ?x))))
 	?b<-(matrix ?id ?dim $?r)
@@ -389,6 +414,7 @@
 	(assert (matrix ?id ?dim $?r i))
 )
 
+;aplicare algoritm Floyd-Warshall si verificarea consistentei
 (defrule R18
 	(declare (salience -600))
 	(matrix ?id ?n $?elem)
