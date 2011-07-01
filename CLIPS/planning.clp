@@ -1,12 +1,12 @@
 ;Algoritmul propriu-zis de planificare
 ;Lucreaza in 2 pasi: in primul este realizat planul prin intermediul unui algoritm
-;de planificare in spatiul planurilor dupa care in al doilea pas se verifica
-;acest plan din punct de vedere al planificarii tenporale
+;de planificare in spatiul planurilor dupa care se verifica acest plan din punct
+;de vedere al planificarii temporale
 
 ;VARIABILE
 
-;variabile globala folosita in numerotarea elementelor matricii ce memoreaza
-;dinstantele intre nodurile grafului
+;variabila globala folosita in numerotarea elementelor matricii ce memoreaza
+;distantele dintre nodurile grafului
 (defglobal ?*A* = 0)
 
 ;END VARIABILE
@@ -56,15 +56,10 @@
 ;verificarea consistentei unui graf pe baza matricii distantelor minime intre noduri
 (deffunction checkConsistency (?id ?n $?elem)
 	(loop-for-count (?i 1 ?n) do
-		(loop-for-count (?j 1 ?n) do
-			(if (= ?i ?j)
-				then
-					(if (> 0 (nth (+ ?j (* ?n (- ?i 1))) $?elem))
-						then
-						(assert (not-cosistent ?id))
-						(return)
-					)
-			)
+		(if (> 0 (nth (+ ?i (* ?n (- ?i 1))) $?elem))
+			then
+			(assert (not-consistent ?id))
+			(return)
 		)
 	)
 	(assert (consistency ?id))
@@ -198,7 +193,7 @@
 	(assert (chain (threat $?x) (links ?y ?z)))
 )
 
-;aranjarea actiunilor dintr-un lant in functie de legaturile de ordine
+;ordonarea actiunilor dintr-un lant in functie de legaturile de ordine
 (defrule R7
 	(declare (salience 400))
 	?a<-(flaws (threat $?z) (links $?v ?x $?t ?y $?w))
@@ -369,13 +364,27 @@
 	(test (eq $?v (mv-append)))
 	(test (eq $?w (mv-append)))
 	=>
+	;(bind $?s (minus $?z))
+	(modify ?a (duration $?z))
+	;(modify ?b (duration $?s))
+)
+
+;etichetare arce graf cu momentul primei actiuni (inceperea programului)
+(defrule R15_3
+	(graf A-0 $?y $?)
+	(explicit-time (firstA A-0) (duration $?z))
+	?a<-(elem (first A-0) (second $?y) (duration $?v))
+	?b<-(elem (first $?y) (second A-0) (duration $?w))
+	(test (eq $?v (mv-append)))
+	(test (eq $?w (mv-append)))
+	=>
 	(bind $?s (minus $?z))
 	(modify ?a (duration $?z))
 	(modify ?b (duration $?s))
 )
 
 ;etichetare arce graf (de la un nod la el insusi - 0)
-(defrule R15_3
+(defrule R15_4
 	?a<-(elem (first $?x) (second $?x) (duration $?v))
 	(test (eq $?v (mv-append)))
 	=>

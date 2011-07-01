@@ -1,4 +1,4 @@
-; Sat Jun 11 14:56:00 EEST 2011
+; Sat Jun 11 19:07:17 EEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -68,6 +68,10 @@
 ;+		(allowed-classes ActivityPattern)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot main_Class4
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot date
 		(type STRING)
 ;+		(cardinality 1 1)
@@ -75,6 +79,11 @@
 	(multislot main_Class5
 		(type INSTANCE)
 ;+		(allowed-classes Profession)
+		(create-accessor read-write))
+	(single-slot initial
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot ID
 		(type STRING)
@@ -112,7 +121,7 @@
 		(create-accessor read-write))
 	(single-slot duration
 		(type INSTANCE)
-;+		(allowed-classes Duration)
+;+		(allowed-classes Time+Interval)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot main_Class10008
@@ -151,6 +160,11 @@
 	(multislot specificActivities
 		(type INSTANCE)
 ;+		(allowed-classes ActivityPattern)
+		(create-accessor read-write))
+	(single-slot final
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot main_Class20029
 		(type STRING)
@@ -227,7 +241,7 @@
 		(create-accessor read-write))
 	(single-slot duration
 		(type INSTANCE)
-;+		(allowed-classes Duration)
+;+		(allowed-classes Time+Interval)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -282,15 +296,6 @@
 		(create-accessor read-write))
 	(single-slot date
 		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass Duration
-	(is-a Time)
-	(role concrete)
-	(single-slot length
-		(type INSTANCE)
-;+		(allowed-classes Time+Interval)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -351,3 +356,22 @@
 (defclass Other
 	(is-a DescriptionParameters)
 	(role concrete))
+
+(defclass TravellingDurations
+	(is-a USER)
+	(role concrete)
+	(single-slot duration
+		(type INSTANCE)
+;+		(allowed-classes Time+Interval)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot final
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot initial
+		(type INSTANCE)
+;+		(allowed-classes Place)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))

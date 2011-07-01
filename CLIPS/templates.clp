@@ -56,7 +56,7 @@
 	(multislot links)
 )
 
-;cu ajutorul acestui template se pot defini explicit anumite distante temporale
+;cu ajutorul acestui template se vor defini explicit anumite durate
 ;(de exemplu intre starea initiala si cea finala) 
 (deftemplate explicit-time
 	(multislot firstA)
@@ -64,7 +64,7 @@
 	(multislot duration (type NUMBER))
 )
 
-;cu ajutorul acestui template se pot defini duratele pentru actiunile de deplasare
+;cu ajutorul acestui template se vor defini duratele pentru actiunile de deplasare
 (deftemplate duration-travelling
 	(multislot initial)
 	(multislot final)

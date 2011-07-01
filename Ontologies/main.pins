@@ -1,7 +1,67 @@
-; Sat Jun 11 14:56:00 EEST 2011
+; Sat Jun 11 19:07:17 EEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
+
+([main_Class20005] of  TravellingDurations
+
+	(duration [main_Class20007])
+	(final [main_Class20070])
+	(initial [main_Class20078]))
+
+([main_Class20007] of  Time+Interval
+
+	(end+time [main_Class20008])
+	(start+time [main_Class20038]))
+
+([main_Class20008] of  Time+Point
+
+	(value "0.5"))
+
+([main_Class20009] of  TravellingDurations
+
+	(duration [main_Class20055])
+	(final [main_Class20069])
+	(initial [main_Class20070]))
+
+([main_Class20010] of  TravellingDurations
+
+	(duration [main_Class20012])
+	(final [main_Class20071])
+	(initial [main_Class20069]))
+
+([main_Class20012] of  Time+Interval
+
+	(end+time [main_Class20014])
+	(start+time [main_Class20038]))
+
+([main_Class20013] of  Time+Point
+)
+
+([main_Class20014] of  Time+Point
+
+	(value "1.5"))
+
+([main_Class20015] of  TravellingDurations
+
+	(duration [main_Class20017])
+	(final [main_Class20071])
+	(initial [main_Class20078]))
+
+([main_Class20017] of  Time+Interval
+
+	(end+time [main_Class20018])
+	(start+time [main_Class20038]))
+
+([main_Class20018] of  Time+Point
+
+	(value "3"))
+
+([main_Class20019] of  TravellingDurations
+
+	(duration [main_Class30021])
+	(final [main_Class20069])
+	(initial [main_Class20078]))
 
 ([main_Class20020] of  Person
 
@@ -21,14 +81,10 @@
 
 ([main_Class20034] of  Preparation
 
-	(duration [main_Class20035])
+	(duration [main_Class20036])
 	(effects [main_Class20050])
 	(ID "LaboratoryPreparation")
 	(preconditions [main_Class20043]))
-
-([main_Class20035] of  Duration
-
-	(length [main_Class20036]))
 
 ([main_Class20036] of  Time+Interval
 
@@ -61,14 +117,10 @@
 
 ([main_Class20053] of  Preparation
 
-	(duration [main_Class20054])
+	(duration [main_Class20055])
 	(effects [main_Class20060])
 	(ID "LecturePreparation")
 	(preconditions [main_Class20057]))
-
-([main_Class20054] of  Duration
-
-	(length [main_Class20055]))
 
 ([main_Class20055] of  Time+Interval
 
@@ -152,3 +204,27 @@
 ([main_Class20078] of  Place
 
 	(value "home"))
+
+([main_Class30021] of  Time+Interval
+
+	(end+time [main_Class30022])
+	(start+time [main_Class20038]))
+
+([main_Class30022] of  Time+Point
+
+	(value "2.5"))
+
+([main_Class30023] of  TravellingDurations
+
+	(duration [main_Class30025])
+	(final [main_Class20071])
+	(initial [main_Class20070]))
+
+([main_Class30025] of  Time+Interval
+
+	(end+time [main_Class30026])
+	(start+time [main_Class20038]))
+
+([main_Class30026] of  Time+Point
+
+	(value "4"))
